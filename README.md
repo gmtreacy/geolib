@@ -1,3 +1,12 @@
+# Dynamic Array lib
+
+## Usage
+
+```
+make all
+make test
+```
+
 ## analyze core file 
 
 ```
