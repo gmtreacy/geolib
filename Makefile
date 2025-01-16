@@ -53,3 +53,4 @@ clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 .PHONY: all clean test list-tests
+.PRECIOUS: $(OBJ_DIR)/%.o
