@@ -1,58 +1,55 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -std=c99 -Wall -Wextra -g -I./include
 # ASAN_FLAGS = -fsanitize=address -fstack-protector
 
+# Directories
+SRC_DIR = src
+INC_DIR = include
+TEST_DIR = test
+OBJ_DIR = obj
+BIN_DIR = bin
+
 # Source files and objects
-SRC = darray.c
-OBJ = $(SRC:.c=.o)
-TEST_SRC = test_darray.c
-TEST_OBJ = $(TEST_SRC:.c=.o)
-HEADERS = darray.h
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+TEST_SRC = $(wildcard $(TEST_DIR)/*.c)
+TEST_BINS = $(TEST_SRC:$(TEST_DIR)/%.c=$(BIN_DIR)/%)
 
-# Targets
-TEST_TARGET = test_darray
+HEADERS = $(wildcard $(INC_DIR)/*.h)
 
-# Default builds tests
-all: $(TEST_TARGET)
+# Create directories if they don't exist
+$(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
 
-# Pattern rule for object files
-%.o: %.c $(HEADERS)
+# Default target builds all tests
+all: $(TEST_BINS)
+
+# Pattern rule for source object files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) $(ASAN_FLAGS) -c $< -o $@
 
-# Test program
-$(TEST_TARGET): $(TEST_OBJ) $(OBJ)
-	@echo "Building tests with ASan..."
-	$(CC) $(CFLAGS) $(ASAN_FLAGS) -o $@ $^
+# Pattern rule for test object files
+$(OBJ_DIR)/test_%.o: $(TEST_DIR)/%.c $(HEADERS)
+	$(CC) $(CFLAGS) $(ASAN_FLAGS) -c $< -o $@
 
-# Run tests
-test: $(TEST_TARGET)
-	@echo "Running tests..."
-	./$(TEST_TARGET)
+# Pattern rule to build each test executable
+$(BIN_DIR)/%: $(TEST_DIR)/%.c $(OBJ)
+	$(CC) $(CFLAGS) $(ASAN_FLAGS) $^ -o $@
 
-# Analysis builds
-analyze: $(TEST_TARGET)
-	@echo "Building for Valgrind analysis..."
-	$(CC) $(CFLAGS) -o $(TEST_TARGET).analyze $(TEST_SRC) $(SRC)
+# Run all tests
+test: $(TEST_BINS)
+	@for test in $(TEST_BINS) ; do \
+		echo "Running $$test..." ; \
+		./$$test ; \
+	done
 
-# Valgrind analysis targets
-valgrind: analyze
-	valgrind --leak-check=full \
-		--show-leak-kinds=all \
-		--track-origins=yes \
-		--verbose \
-		./$(TEST_TARGET).analyze
-
-# Show help
-help:
-	@echo "Available targets:"
-	@echo "  all            : Build tests"
-	@echo "  $(TEST_TARGET) : Build test program"
-	@echo "  test          : Build and run tests"
-	@echo "  valgrind      : Build and run with Valgrind"
-	@echo "  clean         : Remove all built files"
-	@echo "  help          : Show this help message"
+# List all available tests
+list-tests:
+	@echo "Available tests:"
+	@for test in $(TEST_BINS) ; do \
+		echo "  $${test#$(BIN_DIR)/}" ; \
+	done
 
 clean:
-	rm -f $(TEST_TARGET) $(TEST_TARGET).analyze *.o
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: all clean help test valgrind analyze
+.PHONY: all clean test list-tests

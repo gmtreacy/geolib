@@ -7,7 +7,7 @@ DArray *darray_create(size_t initial_capacity)
     if (array == NULL)
         return NULL;
 
-    void **data = malloc(initial_capacity * sizeof(int));
+    void **data = malloc(initial_capacity * sizeof(void*));
     if (data == NULL)
     {
         free(array);
@@ -57,6 +57,7 @@ int darray_resize(DArray *array, size_t new_capacity)
     return 0;
 }
 
+// can return null so caller must always check.
 void *darray_get(DArray *array, size_t index)
 {
     if (array == NULL || index >= array->size)
@@ -94,14 +95,14 @@ size_t darray_size(const DArray *array)
 {
     if (array)
         return array->size;
-    return -1;
+    return 0;
 }
 
 size_t darray_capacity(const DArray *array)
 {
     if (array)
         return array->capacity;
-    return -1;
+    return 0;
 }
 
 int darray_clear(DArray *array)
