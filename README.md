@@ -24,4 +24,9 @@ gdb bin/test_darray core
 
 # Examine memory
 (gdb) x/10x array
+
+# Debugging append 5 elements to darray
+x/6xg &array->data[0]
+x/4xw array->data[0]
+
 ```
