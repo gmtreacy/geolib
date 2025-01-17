@@ -19,7 +19,6 @@ int main(void)
     printf("\nRunning linked list tests...\n\n");
 
     test_list_init();
-    test_list_init();
     test_list_destroy();
     test_list_insert_empty();
     test_list_remove_empty();
@@ -77,7 +76,6 @@ static void test_list_init(void)
 
 static void test_list_destroy(void)
 {
-    printf("Testing list_destroy...\n");
     List list;
     list_init(&list, free);
     list_destroy(&list);
@@ -113,7 +111,6 @@ static void test_list_ins_next(void)
     assert(*(int*)list->head->data == 7);
     list_destroy(list);
     free(list);
-    free(x);
 }
 
 static void test_list_insert_middle(void)
