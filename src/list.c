@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Initializes the list.
+ * 
+ * @param list The list to initialize.
+ * @param destroy A function pointer to free the data stored in the list elements.
+ */
 void list_init(List *list, void (*destroy)(void *data))
 {
     list->size = 0;
@@ -10,6 +16,11 @@ void list_init(List *list, void (*destroy)(void *data))
     list->destroy = destroy;
 }
 
+/**
+ * Destroys the list, freeing all elements and their data.
+ * 
+ * @param list The list to destroy.
+ */
 void list_destroy(List *list)
 {
     if (list->destroy == NULL)
@@ -28,9 +39,14 @@ void list_destroy(List *list)
     list_init(list, list->destroy);
 }
 
-// returns -1 on error
-// if element is NULL, insert at head
-// inserts just after match
+/**
+ * Inserts a new element just after the specified element.
+ * 
+ * @param list The list to insert into.
+ * @param element The element to insert after. If NULL, insert at the head.
+ * @param data The data to store in the new element.
+ * @return 0 on success, -1 on error.
+ */
 int list_ins_next(List *list, ListElmt *element, void *data)
 {
     if (element == NULL || list->head == NULL)
@@ -75,9 +91,14 @@ int list_ins_next(List *list, ListElmt *element, void *data)
     }
 }
 
-// returns -1 on error
-// removes next from match
-// is element = NULL, remove from head
+/**
+ * Removes the element just after the specified element.
+ * 
+ * @param list The list to remove from.
+ * @param element The element to remove after. If NULL, remove from the head.
+ * @param data A pointer to store the data of the removed element.
+ * @return 0 on success, -1 on error.
+ */
 int list_rem_next(List *list, ListElmt *element, void **data)
 {
     if (list->head == NULL) return -1;
