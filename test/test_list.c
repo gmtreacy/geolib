@@ -53,7 +53,7 @@ static void test_list_ins_next(void)
     int *x = malloc(sizeof(int));
     if (!x) return;
     *x = 7;
-    int success = list_ins_next(list, NULL, &x);
+    int success = list_ins_next(list, NULL, x);
     assert(success == 0);
     assert(list->size == 1);
     assert(*(int*)list->head->data == 7);

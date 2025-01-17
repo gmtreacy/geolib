@@ -7,6 +7,12 @@ make all
 make test
 ```
 
+## setup core dump on ubuntu
+```
+ulimit -c unlimited
+echo "core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+```
+
 ## analyze core file 
 
 ```
