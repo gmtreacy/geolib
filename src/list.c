@@ -49,31 +49,24 @@ void list_destroy(List *list)
  */
 int list_ins_next(List *list, ListElmt *element, void *data)
 {
-    if (element == NULL)
-    {
-        ListElmt *new_elmt = malloc(sizeof(ListElmt));
-        if (new_elmt == NULL)
-        {
-            fprintf(stderr, "could not allocate memory for new element");
-            return -1;
-        }
-        new_elmt->data = data;
-        new_elmt->next = list->head;
-        list->head = new_elmt;
-        list->size++;
-        return 0;
-    }
-
-    if (element == NULL) {
-        return -1; // element must be specified for non-head insertion
-    }
-
     ListElmt *new_elmt = malloc(sizeof(ListElmt));
     if (new_elmt == NULL) {
         fprintf(stderr, "could not allocate memory for new element");
         return -1;
     }
     new_elmt->data = data;
+
+    if (element == NULL)
+    {
+        new_elmt->next = list->head;
+        list->head = new_elmt;
+        list->size++;
+        if (new_elmt->next == NULL) {
+            list->tail = new_elmt;
+        }
+        return 0;
+    }
+
     new_elmt->next = element->next;
     element->next = new_elmt;
     list->size++;
@@ -109,10 +102,6 @@ int list_rem_next(List *list, ListElmt *element, void **data)
         return 0;
     }
 
-    if (element == NULL) {
-        return -1; // element must be specified
-    }
-
     if (element->next == NULL) {
         return -1; // element must not be the tail
     }
@@ -124,7 +113,6 @@ int list_rem_next(List *list, ListElmt *element, void **data)
     if (element->next == NULL) {
         list->tail = element;
     }
-
     free(to_remove);
     list->size--;
     return 0;
