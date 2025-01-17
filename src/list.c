@@ -29,7 +29,9 @@ void list_destroy(List *list)
         if (curr->next != NULL)
             list->head = curr->next;
 
-        list->destroy(curr->data);
+        if (list->destroy != NULL) {
+            list->destroy(curr->data);
+        }
         free(curr);
     }
     list_init(list, list->destroy);
@@ -94,7 +96,7 @@ int list_rem_next(List *list, ListElmt *element, void **data)
         list->head = list->head->next;
         *data = curr->data;
         list->destroy(curr->data);
-        list->destroy(curr); 
+        free(curr); 
         list->size--;
         return 0;
     }
@@ -114,7 +116,7 @@ int list_rem_next(List *list, ListElmt *element, void **data)
             list->size--;
             *data = to_rem->data;
             list->destroy(to_rem->data);
-            list->destroy(to_rem);
+            free(to_rem);
             return 0;
         }
         if (curr->next != NULL)
