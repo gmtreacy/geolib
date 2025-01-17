@@ -45,7 +45,8 @@ static void test_list_insert_middle(void);
 static void test_list_insert_tail(void);
 static void test_list_remove_middle(void);
 static void test_list_remove_tail(void);
-{
+
+static void test_list_destroy(void)
     printf("Testing list_destroy...\n");
     List list;
     list_init(&list, free);
