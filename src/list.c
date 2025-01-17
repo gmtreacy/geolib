@@ -30,7 +30,9 @@ void list_destroy(List *list)
             list->head = curr->next;
         
         if (list->destroy != NULL){
-            list->destroy(curr->data);
+            if (list->destroy != (void (*)(void *))free) {
+                list->destroy(curr->data);
+            }
         }
         free(curr);
     }
