@@ -30,7 +30,7 @@ void list_destroy(List *list)
             list->head = curr->next;
 
         list->destroy(curr->data);
-        list->destroy(curr);
+        free(curr);
     }
     list_init(list, list->destroy);
 }
