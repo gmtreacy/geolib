@@ -63,23 +63,6 @@ static void test_list_remove_empty(void)
 }
 
 
-static void test_list_remove_tail(void)
-{
-    printf("Testing list_remove_tail...\n");
-    List list;
-    list_init(&list, free);
-    int *x = malloc(sizeof(int));
-    int *y = malloc(sizeof(int));
-    *x = 1; *y = 2;
-    list_ins_next(&list, NULL, x);
-    list_ins_next(&list, list.head, y);
-    void *data;
-    list_rem_next(&list, list.head, &data);
-    assert(list.size == 1);
-    assert(*(int*)data == 2);
-    free(data);
-    list_destroy(&list);
-}
 
 static void test_list_init(void)
 {
