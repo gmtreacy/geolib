@@ -93,7 +93,7 @@ int list_ins_next(List *list, ListElmt *element, void *data)
  */
 int list_rem_next(List *list, ListElmt *element, void **data)
 {
-    if (list->head == NULL) return -1;
+    if (list->head == NULL) return -1;  // Check if the list is empty by head
 
     // Remove from head if element is NULL
     if (element == NULL)
@@ -103,7 +103,7 @@ int list_rem_next(List *list, ListElmt *element, void **data)
         list->head = list->head->next;
         free(old_element);
         list->size--;
-        if (list->size == 0) {
+        if (list->head == NULL) {  // Check if the list is empty by head
             list->tail = NULL;
         }
         return 0;
