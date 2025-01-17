@@ -64,31 +64,23 @@ int list_ins_next(List *list, ListElmt *element, void *data)
         return 0;
     }
 
-    // Find matching element
-    ListElmt *curr = list->head;
-    for (;;)
-    {
-        if (curr->data == element->data)
-        {
-            ListElmt *new_elmt = malloc(sizeof(ListElmt));
-            if (new_elmt == NULL)
-            {
-                fprintf(stderr, "could not allocate memory for new element");
-                return -1;
-            }
-            new_elmt->data = data;
-            new_elmt->next = curr->next;
-            curr->next = new_elmt;
-            list->size++;
-            if (new_elmt->next == NULL)
-                list->tail = new_elmt;
-            return 0;
-        }
-        if (curr->next != NULL)
-            curr = curr->next;
-        else
-            return -1; // end of list and did not find element, no ins.
+    if (element == NULL) {
+        return -1; // element must be specified for non-head insertion
     }
+
+    ListElmt *new_elmt = malloc(sizeof(ListElmt));
+    if (new_elmt == NULL) {
+        fprintf(stderr, "could not allocate memory for new element");
+        return -1;
+    }
+    new_elmt->data = data;
+    new_elmt->next = element->next;
+    element->next = new_elmt;
+    list->size++;
+    if (new_elmt->next == NULL) {
+        list->tail = new_elmt;
+    }
+    return 0;
 }
 
 /**
@@ -117,33 +109,19 @@ int list_rem_next(List *list, ListElmt *element, void **data)
         return 0;
     }
 
-    // Find matching element
-    ListElmt *curr = list->head;
-    while (curr != NULL)
-    {
-        if (curr->data == element->data)
-        {
-            // Can't remove next if we're at the tail
-            if (curr->next == NULL) {
-                return -1;
-            }
-            
-            // Remove the next element
-            ListElmt *to_remove = curr->next;
-            *data = to_remove->data;
-            curr->next = to_remove->next;
-            
-            // Update tail if we removed the last element
-            if (curr->next == NULL) {
-                list->tail = curr;
-            }
-            
-            free(to_remove);
-            list->size--;
-            return 0;
-        }
-        curr = curr->next;
+    if (element == NULL || element->next == NULL) {
+        return -1; // element must be specified and not be the tail
     }
-    
-    return -1;  // Element not found
+
+    ListElmt *to_remove = element->next;
+    *data = to_remove->data;
+    element->next = to_remove->next;
+
+    if (element->next == NULL) {
+        list->tail = element;
+    }
+
+    free(to_remove);
+    list->size--;
+    return 0;
 }
