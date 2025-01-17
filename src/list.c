@@ -15,24 +15,13 @@ void list_destroy(List *list)
     if (list->destroy == NULL)
         return;
 
-    // start at the head.
-    // make next the new head
-    // list->destroy up your data
-    // list->destroy yourself
-    for (;;)
+    while (list->head != NULL)
     {
-        if (list->head == NULL)
-            break;
-
         ListElmt *curr = list->head;
-
-        if (curr->next != NULL)
-            list->head = curr->next;
+        list->head = curr->next;  // Always update head to next element
         
-        if (list->destroy != NULL){
-            if (list->destroy != (void (*)(void *))free) {
-                list->destroy(curr->data);
-            }
+        if (list->destroy != NULL && list->destroy != (void (*)(void *))free) {
+            list->destroy(curr->data);
         }
         free(curr);
     }
