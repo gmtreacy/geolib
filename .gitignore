@@ -2,3 +2,4 @@ bin/*
 obj/*
 .aider*
 core*
+.env
