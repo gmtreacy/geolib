@@ -36,3 +36,9 @@ x/6xg &array->data[0]
 x/4xw array->data[0]
 
 ```
+
+## Valgrind
+```
+ulimit -n 262144
+valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-reachable=yes --trace-children=yes bin/test_list
+```

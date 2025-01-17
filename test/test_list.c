@@ -58,6 +58,8 @@ static void test_list_ins_next(void)
     assert(list->size == 1);
     assert(*(int*)list->head->data == 7);
     list_destroy(list);
+    free(list);
+    free(x);
 }
 
 static void test_list_rem_next(void)
