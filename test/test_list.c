@@ -95,7 +95,6 @@ static void test_list_destroy(void)
 
 static void test_list_ins_next(void)
 {
-    printf("Testing list_ins_next...\n");
     List *list = malloc(sizeof(List));
     if (!list) return;
 
@@ -103,7 +102,10 @@ static void test_list_ins_next(void)
 
     printf("Testing list_ins_next...\n");
     int *x = malloc(sizeof(int));
-    if (!x) return;
+    if (!x) {
+        free(list);
+        return;
+    }
     *x = 7;
     int success = list_ins_next(list, NULL, x);
     assert(success == 0);
@@ -185,7 +187,6 @@ static void test_list_remove_tail(void)
 
 static void test_list_rem_next(void)
 {
-    printf("Testing list_rem_next...\n");
     List *list = malloc(sizeof(List));
     if (!list) return;
 
@@ -193,7 +194,10 @@ static void test_list_rem_next(void)
 
     printf("Testing list_rem_next...\n");
     int *x = malloc(sizeof(int));
-    if (!x) return;
+    if (!x) {
+        free(list);
+        return;
+    }
     *x = 7;
     int success = list_ins_next(list, NULL, x);
     assert(success == 0);
