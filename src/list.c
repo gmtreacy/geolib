@@ -49,7 +49,7 @@ void list_destroy(List *list)
  */
 int list_ins_next(List *list, ListElmt *element, void *data)
 {
-    if (element == NULL || list->head == NULL)
+    if (element == NULL)
     {
         ListElmt *new_elmt = malloc(sizeof(ListElmt));
         if (new_elmt == NULL)
@@ -64,7 +64,7 @@ int list_ins_next(List *list, ListElmt *element, void *data)
         return 0;
     }
 
-    // find matching element
+    // Find matching element
     ListElmt *curr = list->head;
     for (;;)
     {
