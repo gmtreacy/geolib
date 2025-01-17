@@ -81,39 +81,48 @@ int list_ins_next(List *list, ListElmt *element, void *data)
 int list_rem_next(List *list, ListElmt *element, void **data)
 {
     if (list->head == NULL) return -1;
+
+    // Remove from head if element is NULL
     if (element == NULL)
     {
-        ListElmt *curr = list->head;
+        ListElmt *old_element = list->head;
+        *data = old_element->data;
         list->head = list->head->next;
-        *data = curr->data;
-        list->destroy(curr->data);
-        list->destroy(curr); 
+        free(old_element);
         list->size--;
+        if (list->size == 0) {
+            list->tail = NULL;
+        }
         return 0;
     }
 
-    // find matching element
+    // Find matching element
     ListElmt *curr = list->head;
-    for (;;)
+    while (curr != NULL)
     {
         if (curr->data == element->data)
         {
-            if (curr == list->tail)
-            {
-                return -1;  // can't rem next after tail
+            // Can't remove next if we're at the tail
+            if (curr->next == NULL) {
+                return -1;
             }
-            ListElmt *to_rem = curr->next;
-            curr->next = to_rem->next;
+            
+            // Remove the next element
+            ListElmt *to_remove = curr->next;
+            *data = to_remove->data;
+            curr->next = to_remove->next;
+            
+            // Update tail if we removed the last element
+            if (curr->next == NULL) {
+                list->tail = curr;
+            }
+            
+            free(to_remove);
             list->size--;
-            *data = to_rem->data;
-            list->destroy(to_rem->data);
-            list->destroy(to_rem);
             return 0;
         }
-        if (curr->next != NULL)
-            curr = curr->next;
-        else
-            return -1; // end of list and did not find element, no rem.
+        curr = curr->next;
     }
-    return -1;
+    
+    return -1;  // Element not found
 }
