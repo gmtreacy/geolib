@@ -3,7 +3,16 @@
 #include <stdlib.h>
 #include <assert.h>
 
-// Test function prototypes
+static void test_list_init(void);
+static void test_list_destroy(void);
+static void test_list_insert_empty(void);
+static void test_list_remove_empty(void);
+static void test_list_insert_middle(void);
+static void test_list_insert_tail(void);
+static void test_list_remove_middle(void);
+static void test_list_remove_tail(void);
+static void test_list_ins_next(void);
+static void test_list_rem_next(void);
 
 int main(void)
 {
