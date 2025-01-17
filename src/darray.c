@@ -34,9 +34,7 @@ int darray_append(DArray *array, void *element)
         size_t new_cap = array->size * 2;
         void **new_data = realloc(array->data, new_cap * sizeof(void *));
         if (new_data == NULL)
-        {
             return -1;
-        }
         array->data = new_data;
         array->capacity = new_cap;
     }

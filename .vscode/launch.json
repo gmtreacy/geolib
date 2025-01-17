@@ -5,7 +5,7 @@
             "name": "Debug Tests",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/test_darray",
+            "program": "${workspaceFolder}/bin/test_list",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

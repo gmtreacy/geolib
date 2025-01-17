@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -Wextra -g -I./include
+CFLAGS = -std=c99 -Wall -Wextra -Wpedantic -O2 -Wconversion -Wshadow -Wundef -g -I./include
 # ASAN_FLAGS = -fsanitize=address -fstack-protector
 
 # Directories

@@ -105,11 +105,11 @@ static void test_remove(void)
 static void test_remove_middle(void)
 {
     printf("Testing darray_remove middle...\n");
-    int initial_capacity = 5;
+    size_t initial_capacity = 5;
     DArray *array = darray_create(initial_capacity);
     assert(array != NULL);
 
-    for (int i = 0; i < initial_capacity; i++)
+    for (size_t i = 0; i < initial_capacity; i++)
     {
         int *value = malloc(sizeof(int));
         if (!value)
@@ -117,11 +117,11 @@ static void test_remove_middle(void)
             fprintf(stderr, "Memory allocation failed\n");
             exit(EXIT_FAILURE);
         }
-        *value = i;
+        *value = (int)i;
         darray_append(array, value);
     }
 
-    for (int i = 0; i < initial_capacity; ++i)
+    for (size_t i = 0; i < initial_capacity; ++i)
     {
         int *value = darray_get(array, i);
         assert(value != NULL);

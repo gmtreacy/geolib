@@ -36,10 +36,10 @@ static void test_darray_resize_sequence(void) {
     }
 
     // Verify values and order
-    for (int i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++) {
         int* val = darray_get(array, i);
         assert(val != NULL);
-        assert(*val == i);
+        assert(*val == (int)i);
     }
 
     // Clean up
@@ -76,7 +76,7 @@ static void test_darray_remove_sequence(void) {
             return;
         }
         printf("Testing remove from middle assert expected %zu...\n", i);
-        printf("val = %p\n", val);
+        printf("val = %p\n", (void*)val);
         printf("val = %d\n", *val);
         assert(*val == expected[i]);
     }
@@ -100,7 +100,7 @@ static void test_darray_mixed_operations(void) {
         perror("Failed to allocate memory");
         exit(EXIT_FAILURE);
     } else {
-        printf("val1 = %p\n", val1);
+        printf("val1 = %p\n", (void*)val1);
     }
 
     *val1 = 10;
@@ -113,7 +113,7 @@ static void test_darray_mixed_operations(void) {
         perror("Failed to allocate memory");
         exit(EXIT_FAILURE);
     } else {
-        printf("val2 = %p\n", val1);
+        printf("val2 = %p\n", (void*)val1);
     }
 
     assert(darray_set(array, 0, val2) == 0);
