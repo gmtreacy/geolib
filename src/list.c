@@ -109,8 +109,12 @@ int list_rem_next(List *list, ListElmt *element, void **data)
         return 0;
     }
 
-    if (element == NULL || element->next == NULL) {
-        return -1; // element must be specified and not be the tail
+    if (element == NULL) {
+        return -1; // element must be specified
+    }
+
+    if (element->next == NULL) {
+        return -1; // element must not be the tail
     }
 
     ListElmt *to_remove = element->next;
