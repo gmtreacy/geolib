@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Initializes the list.
@@ -23,20 +24,20 @@ void list_init(List *list, void (*destroy)(void *data))
  */
 void list_destroy(List *list)
 {
+    void *data;
+
     if (list->destroy == NULL)
         return;
 
     while (list->head != NULL)
     {
-        ListElmt *curr = list->head;
-        list->head = curr->next;  // Always update head to next element
-        
-        if (list->destroy != NULL && list->destroy != (void (*)(void *))free) {
-            list->destroy(curr->data);
+        if (list_rem_next(list, NULL, (void **)&data) == 0) {
+            list->destroy(data);
         }
-        free(curr);
     }
-    list_init(list, list->destroy);
+
+    // not allowed to use list after this, but for fun...
+    memset(list, 0, sizeof(List));
 }
 
 /**
