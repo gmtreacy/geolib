@@ -45,6 +45,7 @@ static void test_list_insert_empty(void)  // Test inserting into an empty list
     assert(list->size == 1);
     assert(*(int*)list->head->data == 1);
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_remove_empty(void)  // Test removing from an empty list
@@ -56,6 +57,7 @@ static void test_list_remove_empty(void)  // Test removing from an empty list
     int success = list_rem_next(list, NULL, &data);  // Attempt to remove from empty list
     assert(success == -1);
     list_destroy(list);  // Destroy the list using destroy function
+    free(list);
 }
 
 
@@ -64,12 +66,16 @@ static void test_list_init(void)  // Test list initialization
 {
     printf("Testing list_init...\n");
 
-    List list;
-    list_init(&list, free);  // Initialize list with free function
-    assert(list.size == 0);
-    assert(list.head == NULL);
-    assert(list.tail == NULL);
-    assert(list.destroy == free);
+    List *list = malloc(sizeof(List));
+    list_init(list, free);  // Initialize list with free function
+    list_init(list, free);  // Initialize list with free function
+    assert(list->size == 0);
+    assert(list->head == NULL);
+    assert(list->tail == NULL);
+    assert(list->destroy == free);
+
+    list_destroy(list);
+    free(list);
 }
 
 static void test_list_destroy(void)  // Test list destruction
@@ -88,6 +94,7 @@ static void test_list_destroy(void)  // Test list destruction
     list_ins_next(list, list->head, y);
     list_ins_next(list, list->head->next, z);
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_ins_next(void)  // Test inserting next element
@@ -111,6 +118,7 @@ static void test_list_ins_next(void)  // Test inserting next element
     assert(list->size == 1);
     assert(*(int*)list->head->data == 7);
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_insert_tail(void)  // Test inserting at the tail
@@ -131,6 +139,7 @@ static void test_list_insert_tail(void)  // Test inserting at the tail
     assert(list->size == 2);
     assert(*(int*)list->tail->data == 2);
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_remove_middle(void)  // Test removing from the middle
@@ -157,6 +166,7 @@ static void test_list_remove_middle(void)  // Test removing from the middle
     assert(*(int*)data == 2);
     free(data);  // Free the removed data
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_remove_tail(void)  // Test removing from the tail
@@ -181,6 +191,7 @@ static void test_list_remove_tail(void)  // Test removing from the tail
     assert(*(int*)data == 2);
     free(data);  // Free the removed data
     list_destroy(list);  // Destroy the list and free memory using destroy function
+    free(list);
 }
 
 static void test_list_rem_next(void)  // Test removing next element
@@ -213,4 +224,5 @@ static void test_list_rem_next(void)  // Test removing next element
     assert(*(int*)data == 7);
     free(data);  // Free the removed data
     list_destroy(list);  // Destroy the list and free memory
+    free(list);
 }
