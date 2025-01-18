@@ -4,15 +4,20 @@
 
 pqueue_t *pqueue_new()
 {
-    return NULL;
+    pqueue_t *pq = malloc(sizeof(pqueue_t));
+    return pq ? pq : NULL;
 }
 
-int pqueue_isempty(pqueue_t *pq)
+bool pqueue_isempty(pqueue_t *pq)
 {
-    return 0;
+    if (!pq) return true; 
+    return pq->dl->head == NULL;
 }
 
-void pqueue_enqueue(pqueue_t *pq, void *item, int size) {}
+void pqueue_enqueue(pqueue_t *pq, void *item, int size) {
+    if (!pq) return; 
+    
+}
 
 void pqueue_enqueue_with_priority(pqueue_t *pq, void *item, int size, int (*cmpfptr)(const void *, const void *)) {}
 

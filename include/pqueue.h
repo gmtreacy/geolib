@@ -4,6 +4,7 @@
 #define PQUEUE_H
 
 #include "list.h"
+#include <stdbool.h>
 
 typedef struct pqueue_t
 {
@@ -12,7 +13,7 @@ typedef struct pqueue_t
 
 pqueue_t *pqueue_new();
 
-int pqueue_isempty(pqueue_t *);
+bool pqueue_isempty(pqueue_t *);
 
 void pqueue_enqueue(pqueue_t *, void *item, int size);
 
